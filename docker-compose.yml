@@ -1,0 +1,24 @@
+kafka:
+  image: antlypls/kafka:0.10.0.1
+  environment:
+    - KAFKA=localhost:9092
+    - ZOOKEEPER=localhost:2181
+  expose:
+    - "2181"
+    - "9092"
+
+spark:
+  image: mindsift/spark:2.0
+  command: tail -f /dev/null
+  volumes:
+    - ./target/scala-2.10:/app
+  links:
+   - kafka
+
+sparksecond:
+  image: mindsift/spark:2.0
+  command: tail -f /dev/null
+  volumes:
+    - ./target/scala-2.10:/app
+  links:
+   - kafka
